@@ -20,7 +20,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-change-this-in
 DEBUG = os.getenv('DEBUG') == 'True'
 
 # 許可するホストの設定
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+# whitenoise.middleware.WhiteNoiseMiddleware",ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     'debug_toolbar.middleware.DebugToolbarMiddleware', # DebugToolbar用
     "django.middleware.common.CommonMiddleware",
