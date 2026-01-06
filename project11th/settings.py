@@ -145,4 +145,9 @@ CSRF_COOKIE_SECURE = os.getenv('SECURE_COOKIE') == 'True'
 # 不正リクエストのブロックを強化
 CSRF_COOKIE_SAMESITE = 'Lax'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# 以前の ALLOWED_HOSTS = ['localhost', '127.0.0.1'] を以下に書き換え
+ALLOWED_HOSTS = [
+    'testproject-49g3.onrender.com', 
+    'localhost', 
+    '127.0.0.1'
+]
