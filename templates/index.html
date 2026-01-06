@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>テンプレートのテスト</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>{{ message }}</p>
+
+    <h2>好きな食べ物リスト</h2>
+    <ul>
+        {% for food in food_list %}
+            <li>{{ food }}</li>
+        {% endfor %}
+    </ul>
+
+    <hr> <h3>名前を入力してください</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name">
+        <button type="submit">送信</button>
+    </form>
+</body>
+</html>

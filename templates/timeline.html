@@ -1,0 +1,18 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>タイムライン</title> 
+</head> 
+<body> 
+    <h1>タイムライン</h1>
+
+    <p><a href="{% url 'post_new' %}">新規投稿する</a></p>
+
+    {% for post in posts %}
+        <hr>
+        <p><strong>{{ post.author.username }}</strong></p>
+        <p>{{ post.content }}</p>
+        <p><small>{{ post.created_at }}</small></p>
+    {% endfor %}
+</body> 
+</html>
