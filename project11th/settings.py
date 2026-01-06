@@ -9,15 +9,12 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# 環境変数から取得。なければデフォルト値を使用
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-change-this-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# 環境変数が 'True' の時だけ True になる設定
 DEBUG = os.getenv('DEBUG') == 'True'
 
-# 許可するホストの設定
-# RenderのURL、localhost、127.0.0.1を許可
+# 許可するホストの設定 (RenderのURLを直接指定)
 ALLOWED_HOSTS = [
     'testproject-49g3.onrender.com', 
     'localhost', 
@@ -73,7 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project11th.wsgi.application"
 
-# Database (本番運用では通常PostgreSQLなどを使いますが、演習ではSQLiteを継続)
+# Database
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -82,14 +79,14 @@ DATABASES = {
 }
 
 # Internationalization
-LANGUAGE_CODE = "ja" # 日本語設定に変更
-TIME_ZONE = "Asia/Tokyo" # 日本時間に変更
+LANGUAGE_CODE = "ja"
+TIME_ZONE = "Asia/Tokyo"
 USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / 'staticfiles' # 本番用静的ファイル集約先
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
