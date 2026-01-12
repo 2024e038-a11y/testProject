@@ -44,7 +44,6 @@ MIDDLEWARE = [
 ]
 
 if DEBUG:
-    # DEBUG時のみToolbarを挿入
     MIDDLEWARE.insert(3, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = "project11th.urls"
@@ -56,7 +55,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
-                "django.template.context_processors.debug", # 追加
+                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -67,11 +66,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project11th.wsgi.application"
 
-# Database
+# Database (パスの指定方法をより安全な形式に修正)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
@@ -83,8 +82,8 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-# WhiteNoiseが静的ファイルを圧縮して保持する設定を追加
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# WhiteNoiseの設定
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -96,6 +95,5 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
-# Render環境(HTTPS)ならTrueにする設定
 CSRF_COOKIE_SECURE = not DEBUG 
 CSRF_COOKIE_SAMESITE = 'Lax'
