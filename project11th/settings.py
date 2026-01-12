@@ -5,21 +5,17 @@ from dotenv import load_dotenv
 # 1. .envファイルを読み込む
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-change-this-in-production')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG') == 'True'
+# DEBUGの設定を修正（Render上ではFalse、ローカルではTrueになるように調整）
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# 許可するホストの設定 (RenderのURLを直接指定)
-ALLOWED_HOSTS = [
-    'testproject-49g3.onrender.com', 
-    'localhost', 
-    '127.0.0.1'
-]
+# 全てのホストを許可（確実性を優先）
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -29,16 +25,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles", 
-    'testApp',        # 自作アプリ
+    'testApp',
 ]
 
-# デバッグモード時のみ Debug Toolbar を追加
+# Debug Toolbarの設定を修正
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware", # 静的ファイル配信用
+    "whitenoise.middleware.WhiteNoiseMiddleware", # 静的ファイル用
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -47,8 +43,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# デバッグモード時のみ Debug Toolbar のミドルウェアを追加
 if DEBUG:
+    # DEBUG時のみToolbarを挿入
     MIDDLEWARE.insert(3, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = "project11th.urls"
@@ -60,6 +56,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "django.template.context_processors.debug", # 追加
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -84,19 +81,21 @@ TIME_ZONE = "Asia/Tokyo"
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+# WhiteNoiseが静的ファイルを圧縮して保持する設定を追加
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Debug Toolbar用設定
 INTERNAL_IPS = ["127.0.0.1", "::1"]
 
-# --- セキュリティ強化設定 ---
+# セキュリティ設定
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SECURE = os.getenv('SECURE_COOKIE') == 'True'
+# Render環境(HTTPS)ならTrueにする設定
+CSRF_COOKIE_SECURE = not DEBUG 
 CSRF_COOKIE_SAMESITE = 'Lax'
